@@ -1,0 +1,351 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+    font-family: gilroy;
+}
+html,body{
+    height: 100%;
+    width: 100%;
+}
+#main{
+    position: relative;
+    overflow: hidden;
+}
+#page{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f1f1f1;
+}
+#page1{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f1f1f1;
+}
+#page2{
+    z-index: 100;
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f1f1f1;
+}
+#page3{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f1f1f1;
+}
+canvas{
+    position: relative;
+    z-index: 1;
+    max-width: 100vw;
+    max-height: 100vh;
+}
+#loop{
+    display: flex;
+    position: absolute;
+    top: 30%;
+    height: 25%;
+    width: 100%;
+    font-size: 100px;
+    white-space: nowrap;
+    font-family: gilroy;
+}
+#loop>h1{
+    font-weight: 400;
+    animation-name: anim;
+    animation-duration: 15s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+#loop>h1>span{
+    -webkit-text-stroke: 1.2px #000;
+    color: transparent;
+    font-weight: 500;
+}
+@keyframes anim{
+    0%{
+        transform: translateX(0%);
+    }
+    100%{
+        transform: translateX(-100%);
+    }
+}
+#nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 7%;
+    width: 100%;
+    position: fixed;
+    z-index: 99;
+    padding: 0px 30px;
+}
+#nav>h3{
+    font-family: gilroy;
+    font-weight: 400;
+    font-size: 22px;
+}
+#nav>button{
+    padding: 10px 20px;
+    border-radius: 50px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+}
+#page>h3{
+    position: absolute;
+    top: 55%;
+    font-family: gilroy;
+    font-weight: 400;
+    color: #7c7c7c;
+    left: 5%;
+}
+#page>h4{
+    position: absolute;
+    top: 67%;
+    left: 25%;
+    font-family: gilroy;
+    font-weight: 500;
+}
+#page1>#right-text{
+    position: absolute;
+    top: 30%;
+    left: 10%;
+}
+#page1>#right-text>h3{
+    font-weight: 400;
+    color: #7c7c7c;
+}
+#page1>#right-text>h1{
+    line-height: 1.5;
+    font-size: 50px;
+}
+#page1>#left-text{
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    text-align: end;
+}
+#page1>#left-text>h1{
+    font-size: 50px;
+    line-height: 1.5;
+}
+#page1>#left-text>h3{
+    color: #7c7c7c;
+    font-weight: 400;
+}
+#page2>#text1{
+    position: absolute;
+    top: 30%;
+    left: 10%;
+}
+#page2>#text1>h3{
+    color: #7c7c7c;
+    font-weight: 400;
+}
+#page2>#text1>h1{
+    font-size: 60px;
+    line-height: 1.5;
+}
+#page2>#text2{
+    position: absolute;
+    top: 35%;
+    right: 10%;
+    text-align: end;
+}
+#page2>#text2>p{
+    color: #000000;
+    font-weight: 400;
+}
+#upload-container {
+    position: absolute;
+    top: 50%;
+    right: 10%; /* Adjust as needed */
+    transform: translateY(-50%);
+    z-index: 9999; /* Set a high z-index to ensure it stays on top */
+    pointer-events: none; /* Disable pointer events so it's not clickable */
+}
+
+
+#page2>#text1{
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 50%;
+    /* Your existing styles for text1 */
+}
+
+
+
+
+
+
+:root {
+    --blue: #0071FF;
+    --light-blue: #ca92ed;
+    --dark-blue: #005DD1;
+    --grey: #f2f2f2;
+}
+
+
+
+
+
+.container {
+    max-width: 400px;
+    width: 100%;
+    background: #fff;
+    padding: 30px;
+    border-radius: 30px;
+    position: relative; /* Added position relative for the container */
+}
+
+.img-area {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background: var(--grey);
+    margin-bottom: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.img-area .icon {
+    font-size: 100px;
+}
+.img-area h3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+.img-area p {
+    color: #999;
+}
+.img-area p span {
+    font-weight: 600;
+}
+.img-area img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 100;
+}
+.img-area::before {
+    content: attr(data-img);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .5);
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: all .3s ease;
+    z-index: 200;
+}
+.img-area.active:hover::before {
+    opacity: 1;
+}
+
+/* Styles for the select image button */
+.select-image {
+    z-index: 100;  
+    /* position: relative; */
+    display: block;
+    width: 100%;
+    padding: 16px 0;
+    border-radius: 15px;
+    background: var(--blue);
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.select-image:hover {
+    background: var(--dark-blue);
+}
+
+/* Styles for the circular delete button */
+.delete-image-circle {
+    /* position: absolute; */
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    display: none; /* Initially hide the circular delete button */
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.img-area.active + .delete-image-circle {
+    display: block; /* Show circular delete button when image is selected */
+}
+/* Styles for the check now button */
+.check-now {
+    display: block;
+    width: 100%;
+    padding: 16px 0;
+    border-radius: 15px;
+    background: var(--blue);
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px; /* Added margin-top to separate from the select image button */
+    transition: all .3s ease;
+}
+
+.check-now:hover {
+    background: var(--dark-blue);
+}
+
+
+
+
+
+
+#page3>#text3{
+    position: absolute;
+    top: 40%;
+    right: 10%;
+    text-align: end;
+}
+#page3>#text3>h3{
+    color: #7c7c7c;
+    font-weight: 400;
+}
+#page3>#text3>h1{
+    font-size: 70px;
+
+}
+
+
+
+
