@@ -1,4 +1,6 @@
-from flask import Flask, request, jsonify
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Model
@@ -7,12 +9,24 @@ from tensorflow.keras.applications import Xception
 import base64
 from io import BytesIO
 from PIL import Image
-from flask_cors import CORS
+from fastapi.middleware.cors import CORSMiddleware
 import requests
 import os
+import uvicorn
 
-app = Flask(__name__)
-CORS(app)
+app = FastAPI()
+
+# CORS middleware configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class ImageData(BaseModel):
+    image: str
 
 def load_deepfake_model(weights_url):
     # Download weights if not already downloaded
@@ -45,14 +59,12 @@ def decode_and_preprocess_image(base64_image):
     img_array = np.expand_dims(img_array, axis=0)
     return img_array
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    data = request.get_json()
-    base64_image = data['image']
-    image_array = decode_and_preprocess_image(base64_image)
+@app.post('/predict/')
+def predict(image_data: ImageData):
+    image_array = decode_and_preprocess_image(image_data.image)
     prediction = model.predict(image_array)
     probability = prediction[0][0]
-    return jsonify({'probability': float(probability)})
+    return JSONResponse(content={'probability': float(probability)})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    uvicorn.run(app, host="0.0.0.0", port=5000)
