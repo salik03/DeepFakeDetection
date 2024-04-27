@@ -523,7 +523,7 @@ function sendRequest(base64Image) {
             document.getElementById("result").innerHTML = 'Probability: ' + JSON.parse(this.responseText).probability;
         }
     };
-    var url = "http://localhost:5000/predict";
+    var url = "http://localhost:8000/predict";
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-Type", "application/json");
     var data = JSON.stringify({"image": base64Image});
