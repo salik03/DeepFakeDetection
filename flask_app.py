@@ -7,12 +7,21 @@ from tensorflow.keras.applications import Xception
 import base64
 from io import BytesIO
 from PIL import Image
-from flask_cors import CORS 
+from flask_cors import CORS
+import requests
+import os
 
 app = Flask(__name__)
-CORS(app) 
+CORS(app)
 
-def load_deepfake_model(weights_path):
+def load_deepfake_model(weights_url):
+    # Download weights if not already downloaded
+    weights_filename = 'xception_weights.h5'
+    if not os.path.exists(weights_filename):
+        response = requests.get(weights_url)
+        with open(weights_filename, 'wb') as f:
+            f.write(response.content)
+
     xception_model = Xception(input_shape=(224, 224, 3), include_top=False, weights='imagenet')
     for layer in xception_model.layers[:-4]:
         layer.trainable = False
@@ -22,11 +31,11 @@ def load_deepfake_model(weights_path):
     output = Dense(256, activation='relu')(output)
     output = Dense(1, activation='sigmoid')(output)
     model = Model(inputs=xception_model.input, outputs=output)
-    model.load_weights(weights_path)
+    model.load_weights(weights_filename)
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     return model
 
-model = load_deepfake_model('xception_weights.h5')
+model = load_deepfake_model('https://github.com/salik03/DeepFakeDetection/raw/main/xception_weights.h5')
 
 def decode_and_preprocess_image(base64_image):
     image_bytes = base64.b64decode(base64_image)
