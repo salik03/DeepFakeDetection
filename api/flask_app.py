@@ -10,6 +10,7 @@ from PIL import Image
 from flask_cors import CORS
 import requests
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 app = Flask(__name__)
 CORS(app)
