@@ -491,43 +491,44 @@ document.addEventListener('DOMContentLoaded', function() {
       deleteImageCircleBtn.style.display = 'none';
   });
 
-  checkNowBtn.addEventListener('click', function () {
-      fetch('/runpython')
-          .then(response => response.text())
-          .then(message => {
-              alert(message);
-          })
-          .catch(error => {
-              console.error('Error:', error);
-          });
+    checkNowBtn.addEventListener('click', function () {
+      var image = document.querySelector('.img-area img');
+      if (image) {
+          getBase64(image);  // This function will handle the image to base64 conversion and sending the request
+      } else {
+          alert('Please upload an image first.');
+      }
   });
 });
 
+
 // Additional script for image base64 conversion and sending the request
-function getBase64(file) {
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-        var base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
-        sendRequest(base64String);
-    };
-    reader.onerror = function (error) {
-        console.log('Error: ', error);
-    };
+function getBase64(img) {
+  var canvas = document.createElement("canvas");
+  canvas.width = img.naturalWidth; // or 'width' if you want a special/scaled size
+  canvas.height = img.naturalHeight; // or 'height' if you want a special/scaled size
+  canvas.getContext("2d").drawImage(img, 0, 0);
+  var base64Image = canvas.toDataURL('image/jpeg').replace("data:image/jpeg;base64,", "");
+
+  sendRequest(base64Image);
 }
 
+// Modified sendRequest function to handle the server response
 function sendRequest(base64Image) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("result").innerHTML = 'Probability: ' + JSON.parse(this.responseText).probability;
-        }
-    };
-    var url = "http://localhost:5000/predict";
-    xhttp.open("POST", url, true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-    var data = JSON.stringify({"image": base64Image});
-    xhttp.send(data);
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          var response = JSON.parse(this.responseText);
+          alert('Probability: ' + response.probability); // Showing probability directly in an alert
+      } else if (this.readyState == 4) {
+          alert('Error processing the request');
+      }
+  };
+  var url = "http://localhost:5000/predict";
+  xhttp.open("POST", url, true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  var data = JSON.stringify({"image": base64Image});
+  xhttp.send(data);
 }
 
 function uploadImage() {
