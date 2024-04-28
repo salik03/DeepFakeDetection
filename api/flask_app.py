@@ -35,7 +35,7 @@ def load_deepfake_model(weights_url):
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     return model
 
-model = load_deepfake_model('xception_weights.h5')
+model = load_deepfake_model('https://github.com/salik03/DeepFakeDetection/raw/main/api/xception_weights.h5')
 
 def decode_and_preprocess_image(base64_image):
     image_bytes = base64.b64decode(base64_image)

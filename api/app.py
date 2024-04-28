@@ -32,9 +32,18 @@ def load_deepfake_model(weights_url):
     # Download weights if not already downloaded
     weights_filename = 'xception_weights.h5'
     if not os.path.exists(weights_filename):
+        print("Downloading model weights...")
         response = requests.get(weights_url)
         with open(weights_filename, 'wb') as f:
             f.write(response.content)
+
+    # Check the file size to confirm it's not empty or incomplete
+    file_size = os.path.getsize(weights_filename)
+    print(f"File Size: {file_size} bytes")  # Add this to check file size
+
+    if file_size < 1000:  # Example threshold, adjust based on expected size
+        print("Downloaded file is too small. There may have been a download error.")
+        return None
 
     xception_model = Xception(input_shape=(224, 224, 3), include_top=False, weights='imagenet')
     for layer in xception_model.layers[:-4]:
@@ -49,7 +58,8 @@ def load_deepfake_model(weights_url):
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     return model
 
-model = load_deepfake_model('https://github.com/salik03/DeepFakeDetection/raw/main/xception_weights.h5')
+
+model = load_deepfake_model('https://github.com/salik03/DeepFakeDetection/raw/main/api/xception_weights.h5')
 
 def decode_and_preprocess_image(base64_image):
     image_bytes = base64.b64decode(base64_image)
